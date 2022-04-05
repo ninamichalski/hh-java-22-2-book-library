@@ -19,14 +19,14 @@ public class BookController {
     }
 
 
-    @GetMapping
-    public List<Book> getAllBooks() {
-        return bookService.getAllBooks();
-    }
-
     @GetMapping("/{isbn}")
     public Book getBookByIsbn(@PathVariable String isbn){
         return bookService.getBookByIsbn(isbn);
+    }
+
+    @GetMapping
+    public List<Book> getAllBooks() {
+        return bookService.getAllBooks();
     }
 
     @PostMapping
