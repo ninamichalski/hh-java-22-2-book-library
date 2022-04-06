@@ -1,5 +1,6 @@
 package de.neuefische.booklibrary.service;
 
+import de.neuefische.booklibrary.api.IsbnApiService;
 import de.neuefische.booklibrary.model.Book;
 import de.neuefische.booklibrary.repository.BookRepository;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,8 @@ import static org.mockito.Mockito.*;
 class BookServiceTest {
 
     private final BookRepository bookRepository = mock(BookRepository.class);
-    private final BookService bookService = new BookService(bookRepository);
+    private final IsbnApiService isbnApiService = mock(IsbnApiService.class);
+    private final BookService bookService = new BookService(bookRepository, isbnApiService);
 
     @Test
     void getBookByIsbn_whenBookExists_ReturnBook() {
@@ -81,5 +83,27 @@ class BookServiceTest {
 
         //THEN
         verify(bookRepository).deleteBook("ISBN123");
+    }
+
+    @Test
+    void addBookByIsbn() {
+        //GIVEN
+
+        String isbn = "123";
+        Book book = new Book(isbn, "test-title");
+
+        when(isbnApiService.retrieveBookByIsbn(isbn)).thenReturn(book);
+        when(bookRepository.addBook(book)).thenReturn(book);
+
+        //WHEN
+
+        Book actual = bookService.addBookByIsbn(isbn);
+
+        //THEN
+
+        verify(isbnApiService).retrieveBookByIsbn(isbn);
+        verify(bookRepository).addBook(book);
+
+        assertEquals(book, actual);
     }
 }

@@ -39,5 +39,10 @@ public class BookController {
         bookService.deleteBook(isbn);
     }
 
+    @PutMapping("{isbn}")
+    public Book addBookByIsbn(@PathVariable String isbn) {
+        return bookService.addBookByIsbn(isbn);
+    }
+
 
 }
