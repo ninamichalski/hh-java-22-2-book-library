@@ -33,4 +33,8 @@ public class BookRepository {
     public void deleteBook(String isbn) {
         books.remove(isbn);
     }
+
+    public void deleteAll() {
+        books = new HashMap<>();
+    }
 }
