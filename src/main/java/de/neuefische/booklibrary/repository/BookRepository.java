@@ -11,13 +11,10 @@ public class BookRepository {
     Map<String, Book> books = new HashMap<>();
 
 
+    public Optional<Book> getBookByIsbn(String isbn) {
+        Optional<Book> bookOptional = Optional.ofNullable(books.get(isbn));
 
-    public Book getBookByIsbn(String isbn) {
-        if(!books.containsKey(isbn)){
-            throw new NoSuchElementException();
-        }
-
-        return books.get(isbn);
+        return bookOptional;
     }
 
     public List<Book> getAllBooks() {

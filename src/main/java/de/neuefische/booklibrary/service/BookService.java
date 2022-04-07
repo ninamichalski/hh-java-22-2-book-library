@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class BookService {
@@ -21,7 +23,8 @@ public class BookService {
     }
 
     public Book getBookByIsbn(String isbn) {
-        return bookRepository.getBookByIsbn(isbn);
+        return bookRepository.getBookByIsbn(isbn)
+                .orElseThrow( () -> new NoSuchElementException("Book not found with isbn: " + isbn));
     }
 
     public List<Book> getAllBooks() {
@@ -33,7 +36,13 @@ public class BookService {
     }
 
     public void deleteBook(String isbn) {
-        bookRepository.deleteBook(isbn);
+        Optional<Book> book = bookRepository.getBookByIsbn(isbn);
+
+        if(book.isEmpty()){
+            System.out.println("Book was not really, it didn't exist in the fist place!");
+        } else {
+            bookRepository.deleteBook(isbn);
+        }
     }
 
     public Book addBookByIsbn(String isbn) {

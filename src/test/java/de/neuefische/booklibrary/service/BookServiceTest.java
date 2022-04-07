@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -21,7 +22,7 @@ class BookServiceTest {
     @Test
     void getBookByIsbn_whenBookExists_ReturnBook() {
         //GIVEN
-        when(bookRepository.getBookByIsbn("1")).thenReturn(new Book("1", "The Bible"));
+        when(bookRepository.getBookByIsbn("1")).thenReturn(Optional.ofNullable(new Book("1", "The Bible")));
 
         //WHEN
         Book actual = bookService.getBookByIsbn("1");
@@ -35,7 +36,7 @@ class BookServiceTest {
     @Test
     void getBookByIsbn_whenBookDoesNotExists_throwException() {
         //GIVEN
-        when(bookRepository.getBookByIsbn("1")).thenThrow(new NoSuchElementException());
+        when(bookRepository.getBookByIsbn("1")).thenReturn(Optional.empty());
 
         //WHEN
         //THEN
@@ -72,17 +73,27 @@ class BookServiceTest {
         assertEquals(dummyBook, actual);
     }
 
-
     @Test
-    void deleteBook() {
+    void deleteBook_whenBookExists() {
         //GIVEN
-        doNothing().when(bookRepository).deleteBook("ISBN123");
+        when(bookRepository.getBookByIsbn("ISBN123")).thenReturn(Optional.ofNullable(new Book("ISBN123", "The Bible")));
 
         //WHEN
         bookService.deleteBook("ISBN123");
 
         //THEN
         verify(bookRepository).deleteBook("ISBN123");
+    }
+
+    @Test
+    void deleteBook_whenBookDoesNotExist() {
+        //GIVEN
+
+        //WHEN
+        bookService.deleteBook("ISBN123");
+
+        //THEN
+        verify(bookRepository, never()).deleteBook("ISBN123");
     }
 
     @Test
