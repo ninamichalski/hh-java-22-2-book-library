@@ -8,7 +8,7 @@ import CreateBook from "./components/CreateBook";
 
 export default function App() {
 
-  const {books, setBooks} = useBooks();
+  const {books, addBook} = useBooks();
 
   return (
       <div className="App">
@@ -16,7 +16,7 @@ export default function App() {
           <img src={logo} className="App-logo" alt="logo" />
           My Little Library
           <BookOverview books={books} />
-          <CreateBook books={books} setBooks={setBooks}  />
+          <CreateBook addBook={addBook} />
         </header>
       </div>
   );

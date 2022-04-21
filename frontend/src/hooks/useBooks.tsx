@@ -12,5 +12,9 @@ export default function useBooks() {
             .then(data => setBooks(data));
     }, [])
 
-    return {books, setBooks}
+    const addBook = (newBook: Book) => {
+        setBooks((allBooks) => [...allBooks, newBook])
+    }
+
+    return {books, addBook}
 }
