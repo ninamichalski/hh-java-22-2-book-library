@@ -11,7 +11,7 @@ type CreateBookProps = {
 
 export default function CreateBook({books, setBooks}: CreateBookProps) {
 
-    const {setNewTitle, setNewIsbn, handleSubmit} = useCreateBook(books, setBooks);
+    const {setNewTitle, setNewIsbn, handleSubmit, newIsbn, newTitle} = useCreateBook(books, setBooks);
 
     return <div>
         Add new book
@@ -19,6 +19,7 @@ export default function CreateBook({books, setBooks}: CreateBookProps) {
             <div>
                 <label>New Title:
                     <input type="text"
+                           value={newTitle}
                            className={"create-book__input"}
                            onChange={(e) => setNewTitle(e.target.value)}
                     />
@@ -27,6 +28,7 @@ export default function CreateBook({books, setBooks}: CreateBookProps) {
             <div>
                 <label>New ISBN:
                     <input type="text"
+                           value={newIsbn}
                            className={"create-book__input"}
                            onChange={(e) => setNewIsbn(e.target.value)}
                     />

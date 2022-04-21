@@ -22,9 +22,8 @@ export default function useCreateBook(books : Book[], setBooks: Dispatch<SetStat
         }
 
         postBookByApi(newBook)
-        setBooks([...books, newBook])
-
+            .then(book => setBooks([...books, book]))
     }
 
-    return {handleSubmit, setNewIsbn, setNewTitle}
+    return {handleSubmit, setNewIsbn, setNewTitle, newTitle, newIsbn}
 }

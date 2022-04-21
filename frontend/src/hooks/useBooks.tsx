@@ -3,12 +3,13 @@ import {Book} from "../model/Book";
 import {getBooksByApi} from "../services/BooksApiService";
 
 
-export default function useBooks(){
+export default function useBooks() {
 
     const [books, setBooks] = useState<Book[]>([]);
 
     useEffect(() => {
-        getBooksByApi(setBooks);
+        getBooksByApi(setBooks)
+            .then(data => setBooks(data));
     }, [])
 
     return {books, setBooks}
