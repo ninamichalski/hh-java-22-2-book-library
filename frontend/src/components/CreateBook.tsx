@@ -1,36 +1,17 @@
 import "./BookCard.css"
 import {Book} from "../model/Book";
-import {Dispatch, FormEvent, SetStateAction, useState} from "react";
+import {Dispatch, SetStateAction} from "react";
 import "./CreateBook.css"
-import {postBookByApi} from "../services/BooksApiService";
+import useCreateBook from "../hooks/useCreateBook";
 
 type CreateBookProps = {
     books: Book[]
-    setBook: Dispatch<SetStateAction<Book[]>>
+    setBooks: Dispatch<SetStateAction<Book[]>>
 }
 
-export default function CreateBook({books, setBook}: CreateBookProps) {
+export default function CreateBook({books, setBooks}: CreateBookProps) {
 
-    const [newTitle, setNewTitle] = useState<string>();
-    const [newIsbn, setNewIsbn] = useState<string>();
-
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-
-        if (newTitle === undefined || newIsbn === undefined) {
-            alert(`Please fill book title and isbn`)
-            return
-        }
-
-        const newBook: Book = {
-            title: newTitle,
-            isbn: newIsbn
-        }
-
-        postBookByApi(newBook)
-        setBook([...books, newBook])
-
-    }
+    const {setNewTitle, setNewIsbn, handleSubmit} = useCreateBook(books, setBooks);
 
     return <div>
         Add new book

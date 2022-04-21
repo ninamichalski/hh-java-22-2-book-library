@@ -16,7 +16,7 @@ export default function App() {
           <img src={logo} className="App-logo" alt="logo" />
           My Little Library
           <BookOverview books={books} />
-          <CreateBook books={books} setBook={setBooks}  />
+          <CreateBook books={books} setBooks={setBooks}  />
         </header>
       </div>
   );
