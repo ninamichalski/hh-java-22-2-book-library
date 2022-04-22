@@ -10,13 +10,13 @@ type CreateBookProps = {
 
 export default function CreateBook({addBook}: CreateBookProps) {
 
-    const [newTitle, setNewTitle] = useState<string>();
-    const [newIsbn, setNewIsbn] = useState<string>();
+    const [newTitle, setNewTitle] = useState<string>("");
+    const [newIsbn, setNewIsbn] = useState<string>("");
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if (newTitle === undefined || newIsbn === undefined) {
+        if (!newTitle || !newIsbn) {
             alert(`Please fill book title and isbn`)
             return
         }
