@@ -8,11 +8,11 @@ export default function useBooks() {
     const [books, setBooks] = useState<Book[]>([]);
 
     useEffect(() => {
-        getBooksByApi(setBooks)
+        getBooksByApi()
             .then(data => setBooks(data));
     }, [])
 
-    const addBook = (newBook: Book) => {
+    const addBook = (newBook: Book) => {   //[book1, book2, book3 ,  ... , newBook ]
         setBooks((allBooks) => [...allBooks, newBook])
     }
 

@@ -27,7 +27,7 @@ export default function CreateBook({addBook}: CreateBookProps) {
         }
 
         postBookByApi(newBook)
-            .then(addBook)
+            .then((book) => addBook(book))
     }
 
     return <div>

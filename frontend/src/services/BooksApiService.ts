@@ -3,7 +3,7 @@ import axios from "axios";
 import {Dispatch, SetStateAction} from "react";
 
 
-export function getBooksByApi(setBooks: Dispatch<SetStateAction<Book[]>>) {
+export function getBooksByApi() {
     return axios.get("/book")
         .then(response => response.data)
         .catch(console.error)
