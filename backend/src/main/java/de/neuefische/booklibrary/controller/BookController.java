@@ -13,7 +13,6 @@ public class BookController {
 
     private final BookService bookService;
 
-    @Autowired
     public BookController(BookService bookService) {
         this.bookService = bookService;
     }
@@ -34,15 +33,13 @@ public class BookController {
         return bookService.addBook(newBook);
     }
 
-    @DeleteMapping
-    public void deleteBook(String isbn){
+    @DeleteMapping("/{isbn}")
+    public void deleteBook(@PathVariable String isbn){
         bookService.deleteBook(isbn);
     }
 
-    @PutMapping("{isbn}")
-    public Book addBookByIsbn(@PathVariable String isbn) {
-        return bookService.addBookByIsbn(isbn);
+    @PutMapping("/{isbn}")
+    public Book addBookByIsbn(@PathVariable String isbn, @RequestBody Book book) {
+        return bookService.addBookByIsbn(isbn, book);
     }
-
-
 }

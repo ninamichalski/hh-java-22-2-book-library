@@ -1,6 +1,5 @@
 package de.neuefische.booklibrary.service;
 
-import de.neuefische.booklibrary.api.IsbnApiService;
 import de.neuefische.booklibrary.model.Book;
 import de.neuefische.booklibrary.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +13,10 @@ import java.util.Optional;
 public class BookService {
 
     private final BookRepository bookRepository;
-    private final IsbnApiService isbnApiService;
 
     @Autowired
-    public BookService(BookRepository bookRepository, IsbnApiService isbnApiService) {
+    public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
-        this.isbnApiService = isbnApiService;
     }
 
     public Book getBookByIsbn(String isbn) {
@@ -32,7 +29,7 @@ public class BookService {
     }
 
     public Book addBook(Book newBook) {
-        return bookRepository.addBook(newBook);
+        return bookRepository.addBook(newBook.isbn(), newBook);
     }
 
     public void deleteBook(String isbn) {
@@ -45,9 +42,8 @@ public class BookService {
         }
     }
 
-    public Book addBookByIsbn(String isbn) {
-        Book book = isbnApiService.retrieveBookByIsbn(isbn);
-        bookRepository.addBook(book);
+    public Book addBookByIsbn(String isbn, Book book) {
+        bookRepository.addBook(isbn, book);
         return book;
     }
 }

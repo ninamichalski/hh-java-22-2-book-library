@@ -21,8 +21,8 @@ public class BookRepository {
         return new ArrayList<>(books.values());
     }
 
-    public Book addBook(Book newBook) {
-        books.put(newBook.getIsbn(), newBook);
+    public Book addBook(String isbn, Book newBook) {
+        books.put(isbn, newBook);
 
         return newBook;
     }

@@ -1,13 +1,6 @@
 package de.neuefische.booklibrary.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
+public record Book(String isbn, String title, BookType type) {
 
-@AllArgsConstructor
-@Data
-public class Book {
-
-    private String isbn;
-    private String title;
 }

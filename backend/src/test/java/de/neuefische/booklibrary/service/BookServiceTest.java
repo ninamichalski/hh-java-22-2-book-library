@@ -1,7 +1,7 @@
 package de.neuefische.booklibrary.service;
 
-import de.neuefische.booklibrary.api.IsbnApiService;
 import de.neuefische.booklibrary.model.Book;
+import de.neuefische.booklibrary.model.BookType;
 import de.neuefische.booklibrary.repository.BookRepository;
 import org.junit.jupiter.api.Test;
 
@@ -16,19 +16,18 @@ import static org.mockito.Mockito.*;
 class BookServiceTest {
 
     private final BookRepository bookRepository = mock(BookRepository.class);
-    private final IsbnApiService isbnApiService = mock(IsbnApiService.class);
-    private final BookService bookService = new BookService(bookRepository, isbnApiService);
+    private final BookService bookService = new BookService(bookRepository);
 
     @Test
     void getBookByIsbn_whenBookExists_ReturnBook() {
         //GIVEN
-        when(bookRepository.getBookByIsbn("1")).thenReturn(Optional.ofNullable(new Book("1", "The Bible")));
+        when(bookRepository.getBookByIsbn("1")).thenReturn(Optional.ofNullable(new Book("1", "The Bible", BookType.HOERBUCH)));
 
         //WHEN
         Book actual = bookService.getBookByIsbn("1");
 
         //THEN
-        Book expected = new Book("1", "The Bible");
+        Book expected = new Book("1", "The Bible", BookType.HOERBUCH);
         verify(bookRepository).getBookByIsbn("1");
         assertEquals(expected, actual);
     }
@@ -48,13 +47,13 @@ class BookServiceTest {
     @Test
     void getAllBooks() {
         //GIVEN
-        when(bookRepository.getAllBooks()).thenReturn(List.of(new Book("1", "The Bible"), new Book("978-3-8362-8745-6", "Java ist auch eine Insel")));
+        when(bookRepository.getAllBooks()).thenReturn(List.of(new Book("1", "The Bible", BookType.E_BOOK), new Book("978-3-8362-8745-6", "Java ist auch eine Insel", BookType.HARD_COVER)));
 
         //WHEN
         List<Book> actual = bookService.getAllBooks();
 
         //THEN
-        List<Book> expected = List.of(new Book("1", "The Bible"), new Book("978-3-8362-8745-6", "Java ist auch eine Insel"));
+        List<Book> expected = List.of(new Book("1", "The Bible", BookType.E_BOOK), new Book("978-3-8362-8745-6", "Java ist auch eine Insel", BookType.HARD_COVER));
         verify(bookRepository).getAllBooks();
         assertEquals(expected, actual);
     }
@@ -62,21 +61,21 @@ class BookServiceTest {
     @Test
     void addBook() {
         //GIVEN
-        Book dummyBook = new Book("ISBN42", "Hitchhiker's Guide To The Universe");
-        when(bookRepository.addBook(dummyBook)).thenReturn(dummyBook);
+        Book dummyBook = new Book("ISBN42", "Hitchhiker's Guide To The Universe", BookType.HARD_COVER);
+        when(bookRepository.addBook("ISBN42", dummyBook)).thenReturn(dummyBook);
 
         //WHEN
         Book actual = bookService.addBook(dummyBook);
 
         //THEN
-        verify(bookRepository).addBook(dummyBook);
+        verify(bookRepository).addBook("ISBN42", dummyBook);
         assertEquals(dummyBook, actual);
     }
 
     @Test
     void deleteBook_whenBookExists() {
         //GIVEN
-        when(bookRepository.getBookByIsbn("ISBN123")).thenReturn(Optional.ofNullable(new Book("ISBN123", "The Bible")));
+        when(bookRepository.getBookByIsbn("ISBN123")).thenReturn(Optional.ofNullable(new Book("ISBN123", "The Bible", BookType.E_BOOK)));
 
         //WHEN
         bookService.deleteBook("ISBN123");
@@ -101,19 +100,16 @@ class BookServiceTest {
         //GIVEN
 
         String isbn = "123";
-        Book book = new Book(isbn, "test-title");
+        Book book = new Book(isbn, "test-title", BookType.E_BOOK);
 
-        when(isbnApiService.retrieveBookByIsbn(isbn)).thenReturn(book);
-        when(bookRepository.addBook(book)).thenReturn(book);
+        when(bookRepository.addBook(isbn, book)).thenReturn(book);
 
         //WHEN
 
-        Book actual = bookService.addBookByIsbn(isbn);
+        Book actual = bookService.addBookByIsbn(isbn, book);
 
         //THEN
-
-        verify(isbnApiService).retrieveBookByIsbn(isbn);
-        verify(bookRepository).addBook(book);
+        verify(bookRepository).addBook(isbn, book);
 
         assertEquals(book, actual);
     }
