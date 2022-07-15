@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/backend/book-library.iml" filepath="$PROJECT_DIR$/backend/book-library.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/cgn-java-22-2-book-library.iml" filepath="$PROJECT_DIR$/.idea/cgn-java-22-2-book-library.iml" />
-    </modules>
-  </component>
-</project>
