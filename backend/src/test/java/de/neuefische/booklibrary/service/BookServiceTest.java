@@ -1,7 +1,6 @@
 package de.neuefische.booklibrary.service;
 
 import de.neuefische.booklibrary.model.Book;
-import de.neuefische.booklibrary.model.BookType;
 import de.neuefische.booklibrary.repository.BookRepository;
 import org.junit.jupiter.api.Test;
 
@@ -21,13 +20,13 @@ class BookServiceTest {
     @Test
     void getBookByIsbn_whenBookExists_ReturnBook() {
         //GIVEN
-        when(bookRepository.getBookByIsbn("1")).thenReturn(Optional.ofNullable(new Book("1", "The Bible", BookType.HOERBUCH)));
+        when(bookRepository.getBookByIsbn("1")).thenReturn(Optional.ofNullable(new Book("1", "The First Book", "IKEA AG")));
 
         //WHEN
         Book actual = bookService.getBookByIsbn("1");
 
         //THEN
-        Book expected = new Book("1", "The Bible", BookType.HOERBUCH);
+        Book expected = new Book("1", "IKEA Catalog", "IKEA AG");
         verify(bookRepository).getBookByIsbn("1");
         assertEquals(expected, actual);
     }
@@ -47,13 +46,13 @@ class BookServiceTest {
     @Test
     void getAllBooks() {
         //GIVEN
-        when(bookRepository.getAllBooks()).thenReturn(List.of(new Book("1", "The Bible", BookType.E_BOOK), new Book("978-3-8362-8745-6", "Java ist auch eine Insel", BookType.HARD_COVER)));
+        when(bookRepository.getAllBooks()).thenReturn(List.of(new Book("1", "IKEA Catalog", "IKEA AG"), new Book("978-3-8362-8745-6", "Java ist auch eine Insel", "Christian Ullenboom")));
 
         //WHEN
         List<Book> actual = bookService.getAllBooks();
 
         //THEN
-        List<Book> expected = List.of(new Book("1", "The Bible", BookType.E_BOOK), new Book("978-3-8362-8745-6", "Java ist auch eine Insel", BookType.HARD_COVER));
+        List<Book> expected = List.of(new Book("1", "IKEA Catalog", "IKEA AG"), new Book("978-3-8362-8745-6", "Java ist auch eine Insel", "Christian Ullenboom"));
         verify(bookRepository).getAllBooks();
         assertEquals(expected, actual);
     }
@@ -61,7 +60,7 @@ class BookServiceTest {
     @Test
     void addBook() {
         //GIVEN
-        Book dummyBook = new Book("ISBN42", "Hitchhiker's Guide To The Universe", BookType.HARD_COVER);
+        Book dummyBook = new Book("ISBN42", "Hitchhiker's Guide To The Universe", "IKEA AG");
         when(bookRepository.addBook("ISBN42", dummyBook)).thenReturn(dummyBook);
 
         //WHEN
@@ -75,7 +74,7 @@ class BookServiceTest {
     @Test
     void deleteBook_whenBookExists() {
         //GIVEN
-        when(bookRepository.getBookByIsbn("ISBN123")).thenReturn(Optional.ofNullable(new Book("ISBN123", "The Bible", BookType.E_BOOK)));
+        when(bookRepository.getBookByIsbn("ISBN123")).thenReturn(Optional.ofNullable(new Book("ISBN123", "IKEA Catalog", "IKEA AG")));
 
         //WHEN
         bookService.deleteBook("ISBN123");
@@ -100,7 +99,7 @@ class BookServiceTest {
         //GIVEN
 
         String isbn = "123";
-        Book book = new Book(isbn, "test-title", BookType.E_BOOK);
+        Book book = new Book(isbn, "test-title", "test-author");
 
         when(bookRepository.addBook(isbn, book)).thenReturn(book);
 

@@ -29,7 +29,7 @@ public class BookService {
     }
 
     public Book addBook(Book newBook) {
-        return bookRepository.addBook(newBook.isbn(), newBook);
+        return bookRepository.addBook(newBook.getIsbn(), newBook);
     }
 
     public void deleteBook(String isbn) {
