@@ -10,12 +10,7 @@ export default function BookList(props : BookListProps) {
     return(
         <div>
             {props.books.map((book) =>
-                <div>
-                    <BookCard book={book} deleteBook={props.deleteBook}/>
-                </div>)}
+                    <BookCard book={book} key={book.isbn} deleteBook={props.deleteBook}/>)}
         </div>
-
     )
-
-
 }

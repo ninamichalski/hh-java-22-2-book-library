@@ -1,45 +1,12 @@
-import React, {useEffect, useState} from 'react';
 import './App.css';
-import axios from "axios";
 import BookList from './Components/BookList';
 import NewBook from "./Components/NewBook";
+import useBook from "./Hooks/useBook";
 
 
 function App() {
 
-    const [books, setBooks] = useState([]);
-
-    useEffect(() => {
-        getBooks()
-    }, [])
-
-    const getBooks = () => {
-        axios.get("/api/book/")
-            .then((response) => {return response.data
-            })
-            .then((books) => {setBooks(books)
-            })
-            .catch(error => {console.error(error)})
-    }
-
-    const addBooks = (title:string, author:string, isbn:string) => {
-        let newBook = {
-            title: title,
-            author: author,
-            isbn: isbn,
-        }
-        axios.post("/api/book/", newBook)
-            .then((response) => {return response.data
-            })
-            .then(getBooks)
-    }
-
-    const deleteBook = (isbn: string) => {
-
-        axios.delete("/api/book/" + isbn)
-            .then(getBooks)
-    }
-
+const {books, addBooks, deleteBook} = useBook()
 
   return (
     <div className="App">
