@@ -36,7 +36,7 @@ public class BookService {
         Optional<Book> book = bookRepository.getBookByIsbn(isbn);
 
         if(book.isEmpty()){
-            System.out.println("Book was not really, it didn't exist in the fist place!");
+            System.out.println("Book was not real, it didn't exist in the fist place!");
         } else {
             bookRepository.deleteBook(isbn);
         }

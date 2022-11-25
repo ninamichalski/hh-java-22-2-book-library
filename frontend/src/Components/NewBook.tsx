@@ -21,9 +21,15 @@ export default function NewBook(props : NewBookProps) {
 
     return (
         <div>
-            <input onChange={onTitleChange} value={title} />
-            <input onChange={onAuthorChange} value={author} />
-            <input onChange={onIsbnChange} value={isbn} />
+            <label>Title
+                <input onChange={onTitleChange} value={title} />
+            </label>
+            <label>Author
+                <input onChange={onAuthorChange} value={author} />
+            </label>
+            <label>ISBN
+                <input onChange={onIsbnChange} value={isbn} />
+            </label>
             <button onClick={() => props.newBook(title,author,isbn)}>Add Book</button>
         </div>
 
